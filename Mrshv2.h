@@ -8,24 +8,28 @@
 
 #include <cstdint>
 #include <vector>
-#include "BloomFilter.h"
+#include <istream>
+#include <memory>
+#include "BloomFilterList.h"
+#include "RollingHash.h"
+#include "Fnv641a.h"
 
 class Mrshv2 {
 public:
     // constructors
-    Mrshv2();
-    Mrshv2(const uint32_t b = 256, const uint32_t k = 5, const uint32_t m = 2048, const uint32_t bfMax = 160);
+    explicit Mrshv2(const uint32_t b = 256, const uint32_t k = 5, const uint32_t m = 2048, const uint32_t bfMax = 160);
 
     // functions
-    double compareData(std::vector<uint8_t> data1, std::vector<uint8_t> data2, bool fragmentCompare = false);
-
-
+    double compareData(std::istream &data1, std::istream &data2, bool fragmentCompare = false);
 
 private:
+    uint32_t b = 0;
+    uint32_t k = 0;
+    uint32_t m = 0;
+    uint32_t bfMax = 0;
 
     // functions
-    uint64_t computeChunkHash(std::vector<uint8_t>* data, uint64_t idxFrom, uint64_t idxTo);
-    std::vector<BloomFilter> computeHash(std::vector<uint8_t> data);
+    std::unique_ptr<BloomFilterList> computeHash(std::istream &data);
 
 };
 

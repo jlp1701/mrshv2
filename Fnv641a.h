@@ -11,7 +11,7 @@
 
 class Fnv641a {
 public:
-    static uint64_t hash(const std::vector<const uint8_t> *data);
+    static uint64_t hash(const std::vector<uint8_t> &data);
 
 private:
     static const uint64_t OffsetBasis = 0xcbf29ce484222325;
