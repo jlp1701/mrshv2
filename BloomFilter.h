@@ -18,7 +18,8 @@ public:
     void insertHash(uint64_t hashVal);
     double compare(BloomFilter &bf, bool fragmentCompare = false);
     uint32_t size();
-    uint numBitsSet();
+    uint getNumFilterBitsSet();
+    static uint getNumBitsSet(uint64_t var);
 
 private:
     const double alpha = 0.3;
@@ -26,11 +27,10 @@ private:
     uint32_t m = 0;
     uint32_t bfSize = 0;
     uint32_t bfMax = 0;
-    std::map<uint, bool> filterBits;
+    std::vector<uint64_t> filterBits;
 
-    // functions
-    bool isBitSet(uint32_t bitIdx);
-    uint32_t getSetBitsNum(std::vector<uint32_t> bits);
+    void setBit(uint numIdx);
+
 };
 
 

@@ -9,6 +9,18 @@ BloomFilter::BloomFilter(uint32_t k, uint32_t m, uint32_t bfMax) : k(k), m(m), b
 
     // Todo: check if k*ld(m) <= 64 is true; otherwise error
 
+    // create all instances of the filter
+    uint instances = (uint)std::ceil((double)m/ 64.0);  // TODO: ugly
+    for (int i = 0; i < instances; i++){
+        filterBits.push_back(0);
+    }
+
+}
+
+void BloomFilter::setBit(uint numIdx){
+    uint variableIdx = numIdx / 64; // TODO: ugly
+    uint bitIdx = numIdx % 64; // TODO: ugly too
+    filterBits[variableIdx] |= (1 << bitIdx);
 }
 
 void BloomFilter::insertHash(uint64_t hashVal){
@@ -20,8 +32,8 @@ void BloomFilter::insertHash(uint64_t hashVal){
     uint shifts = (uint)std::ceil(std::log2(m));
     uint64_t mask = m-1;
     for (uint i = 0; i < k; i++){
-        uint64_t bitNum = (hashVal >> (shifts*i)) & mask;
-        filterBits[bitNum] = true;
+        uint64_t bitIdx = (hashVal >> (shifts*i)) & mask;
+        setBit((uint)bitIdx);
     }
     bfSize++;
 }
@@ -30,8 +42,21 @@ uint32_t BloomFilter::size(){
     return bfSize;
 }
 
-uint BloomFilter::numBitsSet(){
-    return filterBits.size();
+uint BloomFilter::getNumBitsSet(uint64_t var){
+    uint numBitsSet = 0;
+    while(var){
+        numBitsSet++;
+        var &= var-1;
+    }
+    return numBitsSet;
+}
+
+uint BloomFilter::getNumFilterBitsSet(){
+    uint numBitsSet = 0;
+    for (auto var : filterBits){
+        numBitsSet += getNumBitsSet(var);
+    }
+    return numBitsSet;
 }
 
 double BloomFilter::compare(BloomFilter &bf, bool fragmentCompare){
@@ -43,24 +68,22 @@ double BloomFilter::compare(BloomFilter &bf, bool fragmentCompare){
     double EMin = m*(1-std::pow(p, k*sizeBf1) - std::pow(p, k*sizeBf2) + std::pow(p, k*(sizeBf1+sizeBf2)));
     double EMax = 0.0;
     if (fragmentCompare){
-        EMax = std::min(numBitsSet(), bf.numBitsSet());
+        EMax = std::min(getNumFilterBitsSet(), bf.getNumFilterBitsSet());
     } else {
-        EMax = std::max(numBitsSet(), bf.numBitsSet());
+        EMax = std::max(getNumFilterBitsSet(), bf.getNumFilterBitsSet());
     }
     // get number of overlapping bits
     // check which bloom filer has more bits set
     BloomFilter* bfLess = this;
     BloomFilter* bfMore = &bf;
-    if (bfLess->numBitsSet() > bfMore->numBitsSet()){
+    if (bfLess->getNumFilterBitsSet() > bfMore->getNumFilterBitsSet()){
         bfLess = &bf;
         bfMore = this;
     }
 
     uint e = 0;
-    for (auto fBits : bfMore->filterBits){
-        if (bfLess->filterBits.find(fBits.first) != bfLess->filterBits.end()){
-            e++;
-        }
+    for (int i = 0; i < bfLess->filterBits.size(); i++){
+        e += getNumBitsSet(bfLess->filterBits[i] & bfMore->filterBits[i]);
     }
 
     // calculate score

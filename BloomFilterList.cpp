@@ -9,7 +9,7 @@ BloomFilterList::BloomFilterList(uint32_t m, uint32_t bfMax) : m{m}, bfMax{bfMax
 }
 
 void BloomFilterList::insertHash(uint64_t hashVal){
-    if (bfList.size() == 0 || bfList.back()->size() >= bfMax){
+    if (bfList.empty() || bfList.back()->size() >= bfMax){
         bfList.emplace_back(std::make_unique<BloomFilter>(5, m, bfMax));
     }
     bfList.back().get()->insertHash(hashVal);
