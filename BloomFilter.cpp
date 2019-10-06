@@ -72,18 +72,11 @@ double BloomFilter::compare(BloomFilter &bf, bool fragmentCompare){
     } else {
         EMax = std::max(getNumFilterBitsSet(), bf.getNumFilterBitsSet());
     }
-    // get number of overlapping bits
-    // check which bloom filer has more bits set
-    BloomFilter* bfLess = this;
-    BloomFilter* bfMore = &bf;
-    if (bfLess->getNumFilterBitsSet() > bfMore->getNumFilterBitsSet()){
-        bfLess = &bf;
-        bfMore = this;
-    }
 
+    // get number of overlapping bits
     uint e = 0;
-    for (int i = 0; i < bfLess->filterBits.size(); i++){
-        e += getNumBitsSet(bfLess->filterBits[i] & bfMore->filterBits[i]);
+    for (int i = 0; i < filterBits.size(); i++){
+        e += getNumBitsSet(filterBits[i] & bf.filterBits[i]);
     }
 
     // calculate score
