@@ -2,13 +2,13 @@
 // Created by Burndi on 04.10.2019.
 //
 
-#include "BloomFilterList.h"
+#include "BloomFilterHash.h"
 
-BloomFilterList::BloomFilterList(uint32_t m, uint32_t bfMax) : m{m}, bfMax{bfMax}{
+BloomFilterHash::BloomFilterHash(uint32_t m, uint32_t bfMax) : m{m}, bfMax{bfMax}{
     bf = 0;
 }
 
-void BloomFilterList::insertHash(uint64_t hashVal){
+void BloomFilterHash::insertHash(uint64_t hashVal){
     if (bfList.empty() || bfList.back()->size() >= bfMax){
         bfList.emplace_back(std::make_unique<BloomFilter>(5, m, bfMax));
     }
@@ -16,14 +16,14 @@ void BloomFilterList::insertHash(uint64_t hashVal){
     bf++;
 }
 
-uint64_t BloomFilterList::size(){
+uint64_t BloomFilterHash::size(){
     return bf;
 }
 
 
-double BloomFilterList::compare(BloomFilterList &bfList, bool fragmentCompare){
-    BloomFilterList *bflLess = this;
-    BloomFilterList *bflMore = &bfList;
+double BloomFilterHash::compare(BloomFilterHash &bfList, bool fragmentCompare){
+    BloomFilterHash *bflLess = this;
+    BloomFilterHash *bflMore = &bfList;
     // sort lists according to sizes
     if (bflLess->bfList.size() > bflMore->bfList.size()){
         bflLess = &bfList;
