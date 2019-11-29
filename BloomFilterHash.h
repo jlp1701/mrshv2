@@ -2,23 +2,23 @@
 // Created by Burndi on 04.10.2019.
 //
 
-#ifndef MRSHV2_BLOOMFILTERLIST_H
-#define MRSHV2_BLOOMFILTERLIST_H
+#ifndef MRSHV2_BLOOMFILTERHASH_H
+#define MRSHV2_BLOOMFILTERHASH_H
 
 #include <cstdint>
 #include <vector>
 #include <memory>
 #include "BloomFilter.h"
 
-class BloomFilterList {
+class BloomFilterHash {
 public:
-    explicit BloomFilterList(uint32_t m = 2048, uint32_t bfMax = 160);
-    BloomFilterList(const BloomFilterList&) = delete;
-    void operator=(const BloomFilterList&) = delete;
+    explicit BloomFilterHash(uint32_t m = 2048, uint32_t bfMax = 160);
+    BloomFilterHash(const BloomFilterHash&) = delete;
+    void operator=(const BloomFilterHash&) = delete;
 
     void insertHash(uint64_t hashVal);
-    double compare(BloomFilterList &bfList, bool fragmentCompare = false);
-    uint64_t size();
+    double compare(const BloomFilterHash* bfList, bool fragmentCompare = false);
+    uint64_t size() const;
 
 private:
     uint32_t m = 0;
@@ -28,4 +28,4 @@ private:
 };
 
 
-#endif //MRSHV2_BLOOMFILTERLIST_H
+#endif //MRSHV2_BLOOMFILTERHASH_H

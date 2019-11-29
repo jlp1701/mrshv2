@@ -16,17 +16,17 @@ void BloomFilterHash::insertHash(uint64_t hashVal){
     bf++;
 }
 
-uint64_t BloomFilterHash::size(){
+uint64_t BloomFilterHash::size() const {
     return bf;
 }
 
 
-double BloomFilterHash::compare(BloomFilterHash &bfList, bool fragmentCompare){
-    BloomFilterHash *bflLess = this;
-    BloomFilterHash *bflMore = &bfList;
+double BloomFilterHash::compare(const BloomFilterHash* bfList, bool fragmentCompare){
+    const BloomFilterHash *bflLess = this;
+    const BloomFilterHash *bflMore = bfList;
     // sort lists according to sizes
     if (bflLess->bfList.size() > bflMore->bfList.size()){
-        bflLess = &bfList;
+        bflLess = bfList;
         bflMore = this;
     }
     if (bflLess->size() < 6 || bflMore->size() < 6){

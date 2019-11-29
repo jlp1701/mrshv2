@@ -10,7 +10,7 @@
 #include <vector>
 #include <istream>
 #include <memory>
-#include "BloomFilterList.h"
+#include "BloomFilterHash.h"
 #include "RollingHash.h"
 #include "Fnv641a.h"
 
@@ -21,6 +21,7 @@ public:
 
     // functions
     double compareData(std::istream &data1, std::istream &data2, bool fragmentCompare = false);
+    std::unique_ptr<BloomFilterHash> computeHash(std::istream &data);
 
 private:
     uint32_t b = 0;
@@ -29,7 +30,7 @@ private:
     uint32_t bfMax = 0;
 
     // functions
-    std::unique_ptr<BloomFilterList> computeHash(std::istream &data);
+
 
 };
 

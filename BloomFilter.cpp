@@ -38,7 +38,7 @@ void BloomFilter::insertHash(uint64_t hashVal){
     bfSize++;
 }
 
-uint32_t BloomFilter::size(){
+uint32_t BloomFilter::size() const{
     return bfSize;
 }
 

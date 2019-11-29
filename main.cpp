@@ -20,7 +20,10 @@ int main() {
 
     time_t begin, end;
     time(&begin);
-    similarity = mrsh.compareData(if1, if2, false);
+    //similarity = mrsh.compareData(if1, if2, false);
+    auto hash1 = mrsh.computeHash(if1);
+    auto hash2 = mrsh.computeHash(if2);
+    similarity = hash1->compare(hash2.get());
     time(&end);
     double timeDiff = difftime(end, begin);
     std::cout << "similarity: " << similarity << std::endl;

@@ -17,7 +17,7 @@ public:
 
     void insertHash(uint64_t hashVal);
     double compare(BloomFilter &bf, bool fragmentCompare = false);
-    uint32_t size();
+    uint32_t size() const;
     uint getNumFilterBitsSet();
     static uint getNumBitsSet(uint64_t var);
 

@@ -6,8 +6,8 @@
 
 Mrshv2::Mrshv2(const uint32_t b, const uint32_t k, const uint32_t m, const uint32_t bfMax): b{b}, k{k}, m{m}, bfMax{bfMax} {};
 
-std::unique_ptr<BloomFilterList> Mrshv2::computeHash(std::istream &data){
-    auto bfList = std::make_unique<BloomFilterList>(m, bfMax);
+std::unique_ptr<BloomFilterHash> Mrshv2::computeHash(std::istream &data){
+    auto bfList = std::make_unique<BloomFilterHash>(m, bfMax);
     RollingHash rh(data, b);
     std::vector<uint8_t> buf;
 
@@ -34,7 +34,7 @@ double Mrshv2::compareData(std::istream &data1, std::istream &data2, bool fragme
     // compare the hashes
     double similarity = 0.0;
 
-    similarity = bfList1->compare(*bfList2, fragmentCompare);
+    similarity = bfList1->compare(bfList2.get(), fragmentCompare);
 
     return similarity;
 }
