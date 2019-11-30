@@ -2,7 +2,7 @@
 // Created by Burndi on 03.10.2019.
 //
 
-#include "Mrshv2.h"
+#include "../include/Mrshv2.h"
 
 Mrshv2::Mrshv2(const uint32_t b, const uint32_t k, const uint32_t m, const uint32_t bfMax): b{b}, k{k}, m{m}, bfMax{bfMax} {};
 

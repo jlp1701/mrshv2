@@ -2,7 +2,7 @@
 // Created by Burndi on 03.10.2019.
 //
 
-#include "RollingHash.h"
+#include "../include/RollingHash.h"
 
 RollingHash::RollingHash(std::istream &data, uint32_t b, uint32_t windowLen) : data(data), b(b), windowLen(windowLen){
     // reset position in stream

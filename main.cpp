@@ -1,7 +1,7 @@
 #include <istream>
 #include <fstream>
 #include <ctime>
-#include "Mrshv2.h"
+#include "include/Mrshv2.h"
 
 int main() {
 
@@ -23,6 +23,7 @@ int main() {
     //similarity = mrsh.compareData(if1, if2, false);
     auto hash1 = mrsh.computeHash(if1);
     auto hash2 = mrsh.computeHash(if2);
+    std::cout << "computed hashes" << std::endl;
     similarity = hash1->compare(hash2.get());
     time(&end);
     double timeDiff = difftime(end, begin);

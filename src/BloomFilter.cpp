@@ -2,7 +2,7 @@
 // Created by Burndi on 03.10.2019.
 //
 
-#include "BloomFilter.h"
+#include "../include/BloomFilter.h"
 
 BloomFilter::BloomFilter(uint32_t k, uint32_t m, uint32_t bfMax) : k(k), m(m), bfMax(bfMax) {
     bfSize = 0;

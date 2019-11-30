@@ -2,7 +2,7 @@
 // Created by Burndi on 04.10.2019.
 //
 
-#include "BloomFilterHash.h"
+#include "../include/BloomFilterHash.h"
 
 BloomFilterHash::BloomFilterHash(uint32_t m, uint32_t bfMax) : m{m}, bfMax{bfMax}{
     bf = 0;
