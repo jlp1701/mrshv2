@@ -1,0 +1,1 @@
+# mrshv2 - C++ implementation of the Multi-Resolution Similarity Hashing v2 Algorithm proposed by Breitinger and Baier
